@@ -1,0 +1,2 @@
+# dgsred
+DGS reduction interface

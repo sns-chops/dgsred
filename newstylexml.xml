@@ -1,0 +1,159 @@
+<?xml version="1.0" ?> 
+
+<dgsreduction>
+  <!-- DEFAULTS section -->
+  <defaults
+    Instrument="ARCS" 
+    FilterBadPulses="True"
+    Save="summary"
+   />
+
+
+  <!-- CALIBRATION AND MASKING section -->
+  <calibration SaveProcDetVanFilename="van37350_white_upos_countfilter1.nxs" DetVanIntRangeUnits="wavelength" NormalizedCalibration="True">
+
+    <VanRuns>37350</VanRuns>
+    <DetVanIntRangeLow>0.35</DetVanIntRangeLow>
+    <DetVanIntRangeHigh>0.75</DetVanIntRangeHigh>
+    
+    
+    <!-- The order the mask is described is the order the mask will be generated -->
+    <Mask HighCounts='1E12' LowCounts='0.1' HighOutlier='100' LowOutlier='0.01' MedianTestHigh='1.75' MedianTestLow='0.25'
+    MedianTestCorrectForSolidAngle='1' ErrorBarCriterion='3.3' MedianTestLevelsUp='1'/>
+    
+    <Mask algorithm="MaskBTP" Pixel="1-7"/>
+    <Mask algorithm="MaskBTP" Pixel="122-128"/>
+    <Mask algorithm="MaskBTP" Bank="71" Pixel="1-14"/>
+    <Mask algorithm="MaskBTP" Bank="71" Pixel="114-128"/>
+    <Mask algorithm="MaskBTP" Bank="70" Pixel="1-12"/>
+    <Mask algorithm="MaskBTP" Bank="70" Pixel="117-128"/>
+    <Mask algorithm="MaskAngle" MaxAngle="2.5"/>
+
+    
+  </calibration>
+
+<!-- DATA section-->
+
+
+
+<!-- Example 2, Simplest reduction line 
+<scan Runs="37878"   ScanType='single' />-->
+
+<!-- Example 3, Save a file 
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs,Badname'/>-->
+
+<!-- Example 4, Friendlyname and friendlynamelogs 
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example4" FriendlyNameLogs='SensorB'/>-->
+
+<!-- Example 5, Set the energy binning
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example5" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650'/>-->
+
+<!-- Example 6, let the software fit for the incident energy
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example6" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='False'/>-->
+
+<!-- Example 7, Do not Fit for the incident energy, BUT the your own defined value for energy and TimeZero.
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example7" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='True'  TimeZeroGuess='4.2' IncidentEnergyGuess='710.45'/>-->
+
+
+<!-- Example 8, Fit for the incident energy, BUT use your own defined value for energy and TimeZero.BUT set a value too far from reality THIS CALC WILL FAIL.
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example8" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='False'  TimeZeroGuess='4.2' IncidentEnergyGuess='500.45'/>-->
+
+<!-- Example 9, Fit for the incident energy, BUT use your own defined value for energy and TimeZero as the starting point of the fit
+<scan Runs="37878"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example9" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='False'  TimeZeroGuess='4.2' IncidentEnergyGuess='700.45'/>-->
+
+
+<!-- Example 10, Combine runs together
+<scan Runs="37878-37879,37881"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example10" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='False' />-->
+
+<!-- Example 11 Set Grouping to Powder binning.
+<scan Runs="37878-37879,37881"   ScanType='single' Save='nxspe,summary,nxs' FriendlyName="Example11" FriendlyNameLogs='SensorB' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='False' PowderAngleStep='0.25' GroupingFile='powder'/>-->
+
+
+
+<!-- Example 12 Multiple Files reduced individully.
+<scan Runs="37878-37879,37881"   ScanType='step' Save='nxspe,summary,nxs' FriendlyName="Example12" FriendlyNameLogs='SensorB,RunNumber' EnergyTransferRange='-650,10.0,650' UseIncidentEnergyGuess='False' PowderAngleStep='0.25' GroupingFile='powder'/>-->
+
+
+
+<!-- Example 13 Multiple Files split up by temperature
+<scan Runs="23985-23989"   ScanType='sweep' Save='nxspe,summary,nxs' FriendlyName="Example13" FriendlyNameLogs='SensorD' UseIncidentEnergyGuess='False' PowderAngleStep='0.25' GroupingFile='powder' LogValue='SensorD' LogValueMin='5' LogValueMax='12' LogValueStep='0.5' />-->
+
+<!-- Example 14 Multiple scan commands can be run in a single .xml file
+<scan Runs="23985"   Save='nxspe,summary,nxs' ScanType='single' FriendlyName='Example14'/>
+<scan Runs="23986"   Save='nxspe,summary,nxs' ScanType='single' FriendlyName='Example14'/>
+<scan Runs="23987"   Save='nxspe,summary,nxs' ScanType='single' FriendlyName='Example14'/>
+<scan Runs="23988"   Save='nxspe,summary,nxs' ScanType='single' FriendlyName='Example14'/> -->
+
+<!-- Example 15 Single orientation of sample rotation stage.  Fixing the goniometer angle to a new value by offseting it from the original value
+<scan Runs="25317"  Save='nxspe,summary,nxs' FriendlyName='Example15'  GoniometerMotorOffset='-90'  GoniometerMotor='CCR12Rot' />-->
+
+<!-- Example 16 Single orientation of sample rotation stage.  Use the stage value in the file-->
+<scan Runs="25317"  Save='nxspe,summary,nxs' FriendlyName='Example16'  GoniometerMotor='CCR12Rot' FriendlyNameLogs='CCR12Rot'/>
+
+
+
+<!-- BKG 2.7 K -->
+<!--
+<scan Runs="37865-37874" Save='nxspe, summary' FriendlyName="Reduction2" UseIncidentEnergyGuess='false' TimeZeroGuess='4.2' IncidentEnergyGuess='710.45'
+EnergyTransferRange='-100,1,685' GroupingFile='powder' ScanType='single'/> 
+
+<scan Runs="37878-37893,37895" Save='nxspe, summary' FriendlyName="Reduction2" UseIncidentEnergyGuess='false' TimeZeroGuess='4.2' IncidentEnergyGuess='710.45'
+EnergyTransferRange='-100,1,685' GroupingFile='powder' ScanType='single'/> -->
+
+<!-- NF 2.65 K-->
+
+
+
+
+  <!--
+<scan Runs="37878-37879" Save='summary' FriendlyName="STEPC" FriendlyNameLogs='SensorB' UseIncidentEnergyGuess='true' TimeZeroGuess='4.2'
+ IncidentEnergyGuess='710.45'  GroupingFile='powder' ScanType='step'/>
+
+
+<scan Runs="37878" Save='summary' FriendlyName="SINGLEC" FriendlyNameLogs='SensorB' UseIncidentEnergyGuess='true' TimeZeroGuess='4.2'
+ IncidentEnergyGuess='710.45'  GroupingFile='powder' ScanType='single'/>
+ 
+ -->
+
+<!--
+<scan Runs="37878-37880" Save='nxspe, summary' FriendlyName="Reduction2_NF_2p65tempstep" FriendlyNameLogs='SensorB' UseIncidentEnergyGuess='true' TimeZeroGuess='4.2'
+ IncidentEnergyGuess='710.45'  GroupingFile='powder' ScanType='step'/>
+-->
+
+<!--<scan runs="37878-37893" save='nxspe, summary' friendlyname="Reduction2_NF_2p65filterednarrow" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'
+filternames='SensorB' filtermin='2.55' filtermax='2.75'/>
+<scan runs="37878-37893" save='nxspe, summary' friendlyname="Reduction2_NF_2p65tempsweep" friendlynamelogs='SensorB' calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='sweep'
+logvalue='SensorB' logvaluemin='2.35' logvaluemax='2.95' logvaluestep='0.01'/>-->
+<!-- SF 1.09 K
+
+<scan runs="37894-37898,37900-37902" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+
+<!-- SF 1.40 
+<scan runs="37904-37905" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+
+<!-- BKG No. 2 
+<scan runs="37916-37917" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+
+<!-- SF 1.80 
+<scan runs="37920-37926" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+
+<!-- SF 2.00 
+<scan runs="37928-37931, 37935-37939" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+
+<!-- SF 2.10 
+<scan runs="37941-37953" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+<!--2.35 K 
+<scan runs="37959-37964" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+<!--1.65 K 
+<scan runs="37972-37974" save='nxspe, summary' friendlyname="Reduction2" calce='false' t0='4.2' efixed='710.45' emin = "-100" emax="685" ebin="1" grouping='powder' scantype='single'/>-->
+
+
+</dgsreduction>
+

@@ -119,10 +119,13 @@ class dgsreduction(object):
             #determine the scantype
             #single OR sweep
             if parsed.datadictsother[d]['ScanType'] == 'single' or  parsed.datadictsother[d]['ScanType'] == 'sweep':
-                FileName = parsed.datadictsother[d]['Instrument']+"_"+str(parsed.datadictsother[d]['Runs'][0])
+                runno = int(parsed.datadictsother[d]['Runs'][0])
+                FileName = parsed.datadictsother[d]['Instrument']+"_"+str(runno)
            
                 #Load each file and fix the time-series to start at 'zero'
                 data = Load(Filename=FileName)
+                if runno in range(141471, 141475+1):
+                    ChangeBinOffset(InputWorkspace="data",OutputWorkspace="data",Offset=882)
                 self.loadtext+='Data files loaded '+FileName+'\n'
                 
                 path = data.getRun()['Filename'].value
@@ -152,9 +155,12 @@ class dgsreduction(object):
                 #now deal with all the other runs, if there are more than one.
                 if len(parsed.datadictsother[d]['Runs']) > 1:
                     for i in range(1,len(parsed.datadictsother[d]['Runs'])):
-                        FileName = parsed.datadictsother[d]['Instrument']+"_"+str(parsed.datadictsother[d]['Runs'][i])           
+                        runno = int(parsed.datadictsother[d]['Runs'][i])
+                        FileName = parsed.datadictsother[d]['Instrument']+"_"+str(runno)
                         #Load each file and fix the time-series to start at 'zero'
                         datatemp = Load(Filename=FileName)
+                        if runno in range(141471, 141475+1):
+                            ChangeBinOffset(InputWorkspace="datatemp",OutputWorkspace="datatemp",Offset=882)
                         path = datatemp.getRun()['Filename'].value
                         self.loadtext+='Data files loaded '+FileName+'\n'
 
